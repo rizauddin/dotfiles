@@ -1,3 +1,31 @@
+###############################################################################
+# ~/.zshrc
+# Author: Rizauddin Saian
+# Description:
+#   Personal Zsh configuration file for macOS + Homebrew setup.
+#   Uses Oh My Zsh with Powerlevel10k, custom PATHs for dev tools,
+#   and plugins for syntax highlighting, autosuggestions, and zoxide.
+#
+# Repository:
+#   https://github.com/rizauddin/dotfiles
+#
+# Management:
+#   This file is managed using GNU Stow.
+#   To deploy (symlink) it to your home directory:
+#     cd ~/.dotfiles && stow -v zsh
+#
+# Notes:
+#   - Safe for public sharing (no private tokens or credentials)
+#   - Locale and SDK paths are macOS standard
+#   - Machine-specific or private settings should go into ~/.zshrc.local
+#   - If you do NOT use Weka or Myra, comment out the following two lines:
+#       [ -f "/Applications/weka-3.8.6.app/Contents/app/weka.jar" ] && \
+#         export CLASSPATH="${CLASSPATH}:/Applications/weka-3.8.6.app/Contents/app/weka.jar"
+#       [ -f "/Applications/Research/myra-5.0.jar" ] && \
+#         export CLASSPATH="${CLASSPATH}:/Applications/Research/myra-5.0.jar"
+#     These are optional and used only for Java-based data mining tools.
+###############################################################################
+
 ##### Locale #####
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -93,7 +121,8 @@ autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats ' %F{blue}git:%f%F{red}(%b)%f'
 setopt PROMPT_SUBST
-PROMPT='%F{yellow}[%F{magenta}%n%f@%F{cyan}%m%f%F{yellow}] %.${vcs_info_msg_0_}%f %% '
+#PROMPT='%F{yellow}[%F{magenta}%n%f@%F{cyan}%m%f%F{yellow}] %.${vcs_info_msg_0_}%f %% '
+PROMPT='%F{yellow}[ZSH]%f %.${vcs_info_msg_0_}%f %% '
 
 ##### Plugins #####
 [ -s "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && . "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"

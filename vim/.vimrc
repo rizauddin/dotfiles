@@ -1,3 +1,37 @@
+"###############################################################################
+" ~/.vimrc
+" Author: Rizauddin Saian
+" Description:
+"   Personal Vim configuration file optimised for development, writing, and
+"   teaching. Uses vim-plug for plugin management, Gruvbox colour scheme, and
+"   settings tuned for readability, code editing, and LaTeX/Markdown work.
+"
+" Repository:
+"   https://github.com/rizauddin/dotfiles
+"
+" Management:
+"   This file is managed using GNU Stow.
+"   To deploy (symlink) it to your home directory:
+"     cd ~/.dotfiles && stow -v vim
+"
+" Notes:
+"   - Safe for public sharing (no private paths or credentials)
+"   - All plugin installations are handled by vim-plug
+"   - If you use this config on a new machine, run inside Vim:
+"       :PlugInstall
+"   - Machine-specific settings (like font or custom scripts) should go in
+"       ~/.vimrc.local
+"   - VimTeX is configured to use Skim as the default PDF viewer:
+"       let g:Tex_ViewRule_pdf = 'open -a Skim'
+"     (If you prefer Zathura, uncomment and adjust the alternative lines:
+"       let g:vimtex_view_method = 'zathura'
+"       let g:vimtex_view_general_viewer = '/opt/homebrew/bin/zathura')
+"   - Emmet snippets include HTML5, Professional, and Bootstrap templates
+"     for quick web development.
+"###############################################################################
+
+
+
 "========================= Bootstrap: vim-plug =========================
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
