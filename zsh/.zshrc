@@ -74,7 +74,6 @@ export PATH="/Library/Frameworks/R.framework/Resources:$PATH"
 alias ls='ls -G'
 alias ll='ls -lG'
 alias chrome='open -a "Google Chrome" -n'
-alias kualiti='cd "$HOME/rizauddin@uitm.edu.my - Google Drive/My Drive/Unit Kualiti Rizauddin/Unit Kualiti"'
 
 ##### Radio Stations #####
 alias suriafm='mpv https://playerservices.streamtheworld.com/api/livestream-redirect/SURIA_FMAAC_SC'
@@ -88,25 +87,6 @@ alias kedahfm='mpv https://playerservices.streamtheworld.com/api/livestream-redi
 alias klfm='mpv https://playerservices.streamtheworld.com/api/livestream-redirect/KL_FMAAC_SC'
 alias molekfm='mpv https://stream-eu-a.rcs.revma.com/z56xa78mtd3vv/20_1foge7aluqmzl02/playlist.m3u8'
 alias zayanfm='mpv https://stream-eu-a.rcs.revma.com/7ww2a4tbv4uvv/64_2yvaj6nnb69x02/playlist.m3u8'
-
-##### Custom Functions #####
-teach() {
-  if [ $# -eq 0 ]; then
-    cd "$HOME/Dropbox/Teaching/Courses/" || return
-    command -v ranger >/dev/null 2>&1 && ranger
-  else
-    cd "$HOME/Dropbox/Teaching/Courses/$1" 2>/dev/null && command -v ranger >/dev/null 2>&1 && ranger
-  fi
-}
-
-project() {
-  if [ $# -eq 0 ]; then
-    cd "$HOME/Box Sync/Programming/Coding/Projects/" || return
-    command -v ranger >/dev/null 2>&1 && ranger
-  else
-    cd "$HOME/Box Sync/Programming/Coding/Projects/$1" 2>/dev/null && command -v ranger >/dev/null 2>&1 && ranger
-  fi
-}
 
 ##### Git Prompt #####
 autoload -Uz vcs_info
