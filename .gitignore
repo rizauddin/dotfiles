@@ -1,0 +1,6 @@
+# ~/.dotfiles/.gitignore
+**/.DS_Store
+**/*.swp
+**/*.swo
+**/*.tmp
+vim/.vimrc.local
