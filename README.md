@@ -1,7 +1,7 @@
 # Dotfiles by Rizauddin Saian
 
-This repository contains my personal configuration files (dotfiles) for **Zsh** and **Vim**, designed for macOS + Homebrew environment.  
-All files are managed using **[GNU Stow](https://www.gnu.org/software/stow/)** to make them portable, modular, and easy to maintain.
+This repository contains my personal configuration files (dotfiles) for **Zsh**, **Vim**, and **Neovim**, designed for a macOS + Homebrew environment.  
+All files are managed using **[GNU Stow](https://www.gnu.org/software/stow/)** to keep them portable and easy to maintain.
 
 ---
 
@@ -10,197 +10,253 @@ All files are managed using **[GNU Stow](https://www.gnu.org/software/stow/)** t
 ```
 ~/.dotfiles
 ├── zsh/
-│   └── .zshrc          # Shell configuration (Oh My Zsh + Powerlevel10k)
+│   └── .zshrc                          # Shell configuration
 ├── vim/
-│   └── .vimrc          # Main Vim configuration
+│   └── .vimrc                          # Vim configuration
+├── nvim/
+│   └── .config/nvim/init.lua           # Neovim configuration (lazy.nvim)
 └── README.md
 ```
 
-Each folder mirrors your `$HOME` directory layout.  
-GNU Stow creates symbolic links from these folders to the actual configuration files in your home directory.
+Each folder mirrors your `$HOME` layout. Stow creates symlinks from these folders to the actual config files in your home directory.
 
 ---
 
 ## Using GNU Stow
 
-### 1. Install Stow
-If you’re on macOS:
+### 1) Install Stow (macOS)
 ```bash
 brew install stow
 ```
 
-### 2. Clone this repo
+### 2) Clone this repo
 ```bash
 git clone git@github.com:rizauddin/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ```
 
-### 3. Deploy (symlink) configuration files
+### 3) Deploy (symlink) configuration files
 ```bash
-stow -v zsh vim
+stow -v zsh vim nvim
 ```
 
 This will create:
 ```
-~/.zshrc  → ~/.dotfiles/zsh/.zshrc
-~/.vimrc  → ~/.dotfiles/vim/.vimrc
-```
-Vim plugins and runtime files (installed by `vim-plug`) remain in `~/.vim/`, which is not part of version control.
-
-### 4. To remove symlinks
-```bash
-stow -D zsh vim
+~/.zshrc               → ~/.dotfiles/zsh/.zshrc
+~/.vimrc               → ~/.dotfiles/vim/.vimrc
+~/.config/nvim/init.lua→ ~/.dotfiles/nvim/.config/nvim/init.lua
 ```
 
-### 5. To reapply symlinks
+> If `~/.config/nvim/init.lua` already exists, move it first:
+> ```bash
+> mkdir -p ~/.dotfiles/nvim/.config/nvim
+> mv ~/.config/nvim/init.lua ~/.dotfiles/nvim/.config/nvim/
+> stow -v nvim
+> ```
+
+### 4) Remove symlinks
 ```bash
-stow -R zsh vim
+stow -D zsh vim nvim
+```
+
+### 5) Reapply symlinks
+```bash
+stow -R zsh vim nvim
 ```
 
 ---
 
 ## Zsh Configuration
 
-The `.zshrc` file provides a ready-to-use, feature-rich shell setup.
+Feature-rich shell with sensible defaults.
 
-### Features
-- **Oh My Zsh** with `robbyrussell` theme
-- **Powerlevel10k** prompt theme
-- **zsh-syntax-highlighting** and **zsh-autosuggestions**
-- **zoxide** for smart directory navigation
-- Configured **PATHs** for:
-  - Homebrew
-  - Java (OpenJDK)
-  - Flutter / Dart
-  - Android SDK / AVD / Build-tools
-  - Python (Anaconda)
-  - R Framework
-- Support for **NVM**, **SDKMAN**, and **Weka/Myra**
-- Useful **aliases**:
-  - `ls`, `ll` – coloured file listing
-  - `chrome` – open a new Chrome profile window
-  - `sinarfm`, `ikimfm`, etc. – listen to radio streams via `mpv`
+**Highlights**
+- Oh My Zsh + Powerlevel10k
+- Syntax highlighting & autosuggestions
+- `zoxide` smart cd
+- PATH setup for Homebrew, Java, Flutter/Dart, Android SDK, Python, R
+- Convenience aliases (e.g. radio via `mpv`, Chrome profiles)
 
-### Setup Steps
-1. Install Oh My Zsh  
-   ```bash
-   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-   ```
-2. Install Powerlevel10k  
-   ```bash
-   brew install romkatv/powerlevel10k/powerlevel10k
-   ```
-3. Run the configuration wizard:  
-   ```bash
-   p10k configure
-   ```
-4. Reload Zsh to apply settings:  
-   ```bash
-   source ~/.zshrc
-   ```
+**Setup**
+```bash
+# Oh My Zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Powerlevel10k
+brew install romkatv/powerlevel10k/powerlevel10k
+p10k configure
+
+# Apply
+source ~/.zshrc
+```
 
 ---
 
 ## Vim Configuration
 
-The `.vimrc` is optimised for **LaTeX**, **HTML**, **JavaScript**, **TypeScript**, and **Markdown** editing, with intelligent indentation, syntax highlighting, and plugin integration.
+Optimised for LaTeX, HTML, JS/TS, and Markdown. Uses **vim-plug**.
 
-### Plugins (via [vim-plug](https://github.com/junegunn/vim-plug))
-- **lervag/vimtex** – LaTeX support
-- **junegunn/fzf** & **fzf.vim** – file search
-- **preservim/nerdtree** – file explorer
-- **neoclide/coc.nvim** – autocompletion & LSP
-- **mattn/emmet-vim** – HTML expansion
-- **tpope/vim-commentary** – commenting
-- **prettier/vim-prettier** – code formatting
-- **iamcco/markdown-preview.nvim** – Markdown live preview
-- **morhetz/gruvbox** – colour scheme
-- **vim-gutentags** – automatic tag management
+**Plugins**
+- `lervag/vimtex` (LaTeX)
+- `junegunn/fzf` + `fzf.vim` (finder)
+- `preservim/nerdtree` (file tree)
+- `neoclide/coc.nvim` (LSP/completion)
+- `mattn/emmet-vim` (HTML)
+- `tpope/vim-commentary` (comments)
+- `prettier/vim-prettier` (format)
+- `iamcco/markdown-preview.nvim` (preview)
+- `morhetz/gruvbox` (theme)
+- `ludovicchabant/vim-gutentags` (ctags)
 
-### Key Features
-- Dark **Gruvbox** theme
-- Relative line numbers
-- Automatic indentation & syntax highlighting
-- Mouse support
-- Smart search (`ignorecase`, `incsearch`)
-- HTML/JSX/TSX syntax support
-- JSON and Markdown prettifiers
-- Folding (`zf` to fold, `zR` to unfold all)
-- Easy tag management (`ctags` integration)
+**Useful**
+- Dark Gruvbox, relative numbers, smart search
+- HTML/JSX/TSX/GraphQL syntax
+- `:PrettyJSON` for JSON
+- Tags with `ctags`
 
-### Special Commands
+**Common commands**
 
 | Command | Mode | Description |
-|----------|------|-------------|
-| `\ll` | Normal | Compile LaTeX file via **VimTeX** |
-| `\lv` | Normal | View compiled PDF (opens in **Skim**) |
-| `\li` | Normal | Show LaTeX compiler info |
-| `:Files` or `<leader>f` | Normal | Open **fzf** file search |
-| `<leader>n` | Normal | Toggle **NERDTree** file explorer |
-| `<leader>w` | Normal | Wrap selection with HTML tag (requires `wrapwithtag.vim`) |
-| `:PrettyJSON` | Command | Format JSON using Python |
-| `<C-Space>` | Insert | Trigger CoC autocompletion |
-| `<Tab>` / `<S-Tab>` | Insert | Navigate suggestion menu |
+|---|---|---|
+| `\ll` | Normal | Compile LaTeX (VimTeX) |
+| `\lv` | Normal | Open PDF in Skim |
+| `:Files` / `<leader>f` | Normal | FZF files |
+| `<leader>n` | Normal | Toggle NERDTree |
+| `:PrettyJSON` | Cmd | Format JSON |
 
-### Emmet Snippets
-Your Emmet setup includes:
-- `html:5` — Standard HTML5 boilerplate
-- `html:pro` — Professional SEO-ready template
-- `html:bs` — Bootstrap 5 responsive template
-
-To expand, type the abbreviation and press:  
-`Ctrl + y ,` in **Insert mode**
-
-### LaTeX Workflow (VimTeX)
-- Compiler: `latexmk`
-- PDF Viewer: **Skim**  
-  (`let g:Tex_ViewRule_pdf = 'open -a Skim'`)
-- Forward search (`\lv`) supported via SyncTeX
-
-### 🪄 Plugin Installation
-To install all plugins after cloning:
+**Install plugins**
 ```bash
 vim +PlugInstall +qall
 ```
 
 ---
 
-## Local Overrides
+## Neovim Configuration
+
+A Lua-first setup that mirrors the Vim experience but uses modern plugins.
+
+**Location**
+```
+~/.dotfiles/nvim/.config/nvim/init.lua
+```
+
+**Manager**
+- **lazy.nvim** (bootstraps itself)
+
+**Key Plugins**
+- Theme: `morhetz/gruvbox`, `sainnhe/gruvbox-material`
+- Finder: **Telescope** (`nvim-telescope/telescope.nvim`)
+  - `<leader>f` files, `<leader>b` buffers, `<leader>g` live grep, `<leader>w` in-buffer fuzzy
+- Comments: `numToStr/Comment.nvim`
+- Markdown preview: `iamcco/markdown-preview.nvim`
+- Formatting: `stevearc/conform.nvim` (Prettier where relevant)
+- Treesitter: `nvim-treesitter/nvim-treesitter` (JS/TS/JSX/GraphQL/Markdown/etc.)
+- LaTeX: `lervag/vimtex` with **Skim** viewer and `latexmk`
+- Copilot: `github/copilot.vim`
+- Emmet: `mattn/emmet-vim`
+- Tags: `ludovicchabant/vim-gutentags` (`ctags`)
+
+**Editor behaviour**
+- Dark background, termguicolors
+- Relative numbers, cursorline
+- Search: `ignorecase` + `smartcase`
+- Indent: 2 spaces
+- `clipboard=unnamedplus` (pastes from macOS clipboard by default)  
+  - Paste last yank (ignoring clipboard): `"0p`
+- Arrow keys show hints to use `hjkl` (like Vim setup)
+
+**Neovim setup steps**
+```bash
+# Open Neovim and run (lazy.nvim will bootstrap):
+nvim
+
+# Then:
+:checkhealth
+:Lazy sync
+:TSUpdate
+```
+
+**Extra commands provided**
+- `:PrettyJSON` — format JSON
+- `:LatexClean` — remove LaTeX aux/out
+- `:LatexDoctor` — check Skim + nvr + latexmk + vimtex wiring
+- `:ReloadConfig` — reload `init.lua`
+
+**Skim + inverse search notes**
+- Uses a fixed Neovim RPC socket for reliable inverse search via `nvr`.
+- In Skim ▸ Preferences ▸ Sync:  
+  Command: `/opt/homebrew/bin/nvr`  
+  Args: `--server /tmp/nvim-riza --remote-silent +"%line" "%file"`
+
+**Telescope vs FZF**
+- Vim uses **FZF**.
+- Neovim uses **Telescope** (richer integration with Lua ecosystem).
+
+---
+
+## Local Overrides (private)
 
 You can keep private or machine-specific settings in these optional files:
+
 ```
 ~/.zshrc.local
 ~/.vimrc.local
+~/.config/nvim/local.lua
 ```
 
-Both are **ignored by Git** and sourced automatically if they exist.
-
-Add this to `.gitignore`:
+Add to `.gitignore`:
 ```
 zsh/.zshrc.local
 vim/.vimrc.local
+nvim/.config/nvim/local.lua
 ```
 
 ---
 
 ## Maintenance
 
-| Task | Command |
-|------|----------|
-| Update dotfiles | `git pull` |
-| Add new config | `stow -v <folder>` |
-| Remove config | `stow -D <folder>` |
-| Check syntax | `zsh -n ~/.zshrc` |
-| Reinstall Vim plugins | `vim +PlugClean! +PlugInstall +qall` |
+| Task | Vim | Neovim |
+|---|---|---|
+| Install/Sync plugins | `vim +PlugInstall +qall` | `:Lazy sync` |
+| Clean unused plugins | `vim +PlugClean! +qall` | `:Lazy clean` |
+| Update Treesitter | — | `:TSUpdate` |
+| Health check | — | `:checkhealth` |
+
+General:
+```bash
+# Pull latest dotfiles
+git -C ~/.dotfiles pull
+
+# Re-stow
+cd ~/.dotfiles && stow -R zsh vim nvim
+```
+
+---
+
+## Troubleshooting
+
+- **Neovim clipboard**  
+  With `clipboard=unnamedplus`, `p` pastes from macOS clipboard.  
+  To paste your last yank (not the clipboard): use `"0p`.
+
+- **ctags path (Homebrew)**  
+  If `gutentags` can’t find `ctags`, ensure:
+  ```
+  /opt/homebrew/bin/ctags
+  ```
+  is installed and on `PATH`.
 
 ---
 
 ## References
 
-- [GNU Stow Manual](https://www.gnu.org/software/stow/manual/stow.html)
+- [GNU Stow](https://www.gnu.org/software/stow/manual/stow.html)
 - [Oh My Zsh](https://ohmyz.sh)
 - [Powerlevel10k](https://github.com/romkatv/powerlevel10k)
-- [Vim Plug](https://github.com/junegunn/vim-plug)
+- [vim-plug](https://github.com/junegunn/vim-plug)
 - [VimTeX](https://github.com/lervag/vimtex)
 - [fzf.vim](https://github.com/junegunn/fzf.vim)
 - [NERDTree](https://github.com/preservim/nerdtree)
+- [lazy.nvim](https://github.com/folke/lazy.nvim)
+- [Telescope](https://github.com/nvim-telescope/telescope.nvim)
+- [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)

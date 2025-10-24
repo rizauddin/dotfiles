@@ -3,6 +3,7 @@
 **/*.swp
 **/*.swo
 **/*.tmp
+**/*.bak
 vim/.vimrc.local
 vim/.vim/plugged/
 vim/.vim/.netrwhist
