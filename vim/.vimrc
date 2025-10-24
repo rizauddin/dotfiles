@@ -87,6 +87,11 @@ set foldlevelstart=99
 set updatetime=300
 set completeopt=menuone,noselect
 "set clipboard=unnamedplus  " use p to paste from macOS system clipboard
+" Normal y/p stay internal
+" Map leader shortcuts for system clipboard
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>p "+p
 
 " Spelling (buffer-local is pointless in vimrc; set globally)
 set spell
