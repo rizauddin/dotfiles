@@ -86,7 +86,7 @@ set foldlevelstart=99
 " Performance / UX
 set updatetime=300
 set completeopt=menuone,noselect
-set clipboard=unnamedplus  " macOS system clipboard
+"set clipboard=unnamedplus  " use p to paste from macOS system clipboard
 
 " Spelling (buffer-local is pointless in vimrc; set globally)
 set spell
