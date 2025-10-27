@@ -119,6 +119,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " File tree
+let g:NERDTreeHijackNetrw = 0 " vim . starts with netrw instead of NerdTree
 Plug 'preservim/nerdtree'
 
 " LaTeX
