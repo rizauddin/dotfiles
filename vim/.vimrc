@@ -255,3 +255,32 @@ if filereadable(expand('~/.vim/scripts/wrapwithtag.vim'))
     autocmd FileType html,xml source ~/.vim/scripts/wrapwithtag.vim
   augroup END
 endif
+
+" --- Transparent background only in terminal Vim (not MacVim) ---
+if !has('gui_running') " terminal Vim only
+  if has('termguicolors')
+    set termguicolors
+  endif
+
+  " Apply once on startup
+  silent! highlight Normal      ctermbg=NONE guibg=NONE
+  silent! highlight NonText     ctermbg=NONE guibg=NONE
+  silent! highlight LineNr      ctermbg=NONE guibg=NONE
+  silent! highlight SignColumn  ctermbg=NONE guibg=NONE
+  silent! highlight EndOfBuffer ctermbg=NONE guibg=NONE
+  silent! highlight NormalNC    ctermbg=NONE guibg=NONE
+  silent! highlight VertSplit   ctermbg=NONE guibg=NONE
+
+  " Reapply after any :colorscheme
+  augroup TransparentBG
+    autocmd!
+    autocmd ColorScheme * silent! highlight Normal      ctermbg=NONE guibg=NONE
+    autocmd ColorScheme * silent! highlight NonText     ctermbg=NONE guibg=NONE
+    autocmd ColorScheme * silent! highlight LineNr      ctermbg=NONE guibg=NONE
+    autocmd ColorScheme * silent! highlight SignColumn  ctermbg=NONE guibg=NONE
+    autocmd ColorScheme * silent! highlight EndOfBuffer ctermbg=NONE guibg=NONE
+    autocmd ColorScheme * silent! highlight NormalNC    ctermbg=NONE guibg=NONE
+    autocmd ColorScheme * silent! highlight VertSplit   ctermbg=NONE guibg=NONE
+  augroup END
+endif
+

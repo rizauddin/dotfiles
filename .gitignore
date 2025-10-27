@@ -1,13 +1,38 @@
-# ~/.dotfiles/.gitignore
+# macOS
 **/.DS_Store
+
+# Vim swap/backup/tmp files
 **/*.swp
 **/*.swo
 **/*.tmp
 **/*.bak
+
+# Local-only configs
 vim/.vimrc.local
+zsh/.zshrc.local
+
+# Vim runtime dirs
 vim/.vim/plugged/
 vim/.vim/.netrwhist
 vim/.vim/backup/
 vim/.vim/swap/
 vim/.vim/undo/
-zsh/.zshrc.local
+
+# Optional: if you have colorschemes downloaded from elsewhere
+vim/.vim/colors/
+nvim/lazy/
+nvim/plugin/
+
+# Ranger cache & compiled files
+ranger/__pycache__/
+ranger/plugins/__pycache__/
+ranger/bookmarks
+ranger/tagged/
+
+# Ranger auto-installed themes and plugins
+ranger/.config/ranger/colorschemes/
+ranger/.config/ranger/plugins/
+
+
+
+

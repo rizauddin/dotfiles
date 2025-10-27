@@ -72,4 +72,53 @@ if is_macos and not vim.env.SSH_TTY and vim.fn.executable("pbcopy") == 1 then
   -- o.clipboard = "unnamedplus"
 end
 
+----------------------------------------------------
+-- Transparency (iTerm2 + any colourscheme)
+----------------------------------------------------
+-- Reapply on every colourscheme load
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    vim.cmd([[
+      hi Normal guibg=none ctermbg=none
+      hi NormalNC guibg=none ctermbg=none
+      hi SignColumn guibg=none
+      hi LineNr guibg=none
+      hi EndOfBuffer guibg=none
+      hi NeoTreeNormal guibg=none
+      hi NeoTreeNormalNC guibg=none
+      hi TelescopeNormal guibg=none
+      hi TelescopeBorder guibg=none
+      hi StatusLine guibg=none
+      hi StatusLineNC guibg=none
+      hi TabLine guibg=none
+      hi TabLineFill guibg=none
+    ]])
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+  end,
+})
+
+-- Apply once on startup (before any later colourscheme override)
+pcall(function()
+  vim.cmd([[
+    hi Normal guibg=none ctermbg=none
+    hi NormalNC guibg=none ctermbg=none
+    hi SignColumn guibg=none
+    hi LineNr guibg=none
+    hi EndOfBuffer guibg=none
+    hi NeoTreeNormal guibg=none
+    hi NeoTreeNormalNC guibg=none
+    hi TelescopeNormal guibg=none
+    hi TelescopeBorder guibg=none
+    hi StatusLine guibg=none
+    hi StatusLineNC guibg=none
+    hi TabLine guibg=none
+    hi TabLineFill guibg=none
+  ]])
+  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+  vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+end)
+
 return true
+
+

@@ -1,6 +1,6 @@
 # Dotfiles by Rizauddin Saian
 
-This repository contains my personal configuration files (dotfiles) for **Zsh**, **Vim**, and **Neovim**, designed for a macOS + Homebrew environment.  
+This repository contains my personal configuration files (dotfiles) for **Zsh**, **Vim**, **Neovim**, and **Ranger**, designed for a macOS + Homebrew environment.  
 All files are managed using **[GNU Stow](https://www.gnu.org/software/stow/)** to keep them portable and easy to maintain.
 
 ---
@@ -15,6 +15,8 @@ All files are managed using **[GNU Stow](https://www.gnu.org/software/stow/)** t
 │   └── .vimrc                          # Vim configuration
 ├── nvim/
 │   └── .config/nvim/init.lua           # Neovim configuration (lazy.nvim)
+├── ranger/
+│   └── .config/ranger/                 # Ranger configuration
 └── README.md
 ```
 
@@ -37,7 +39,7 @@ cd ~/.dotfiles
 
 ### 3) Deploy (symlink) configuration files
 ```bash
-stow -v zsh vim nvim
+stow -v zsh vim nvim ranger
 ```
 
 This will create:
@@ -45,6 +47,7 @@ This will create:
 ~/.zshrc               → ~/.dotfiles/zsh/.zshrc
 ~/.vimrc               → ~/.dotfiles/vim/.vimrc
 ~/.config/nvim/init.lua→ ~/.dotfiles/nvim/.config/nvim/init.lua
+~/.config/ranger/      → ~/.dotfiles/ranger/.config/ranger/
 ```
 
 > If `~/.config/nvim/init.lua` already exists, move it first:
@@ -56,12 +59,12 @@ This will create:
 
 ### 4) Remove symlinks
 ```bash
-stow -D zsh vim nvim
+stow -D zsh vim nvim ranger
 ```
 
 ### 5) Reapply symlinks
 ```bash
-stow -R zsh vim nvim
+stow -R zsh vim nvim ranger
 ```
 
 ---
@@ -194,6 +197,150 @@ nvim
 
 ---
 
+## Ranger Configuration
+
+Ranger is a terminal-based file manager that integrates well with Zsh and Neovim.  
+This setup is **macOS-first**, using **Preview.app** for images/PDFs and `open` for Office files.
+
+**Location**
+```
+~/.dotfiles/ranger/.config/ranger/
+├── rc.conf        # Ranger settings and keymaps
+├── rifle.conf     # File opener rules (macOS friendly)
+└── scope.sh       # Preview script
+```
+
+---
+
+### Features
+
+- macOS integration (`open` and Preview.app)  
+- Quick Look with `q` (`qlmanage -p`)  
+- Trash instead of permanent delete (`trash -F`)  
+- Image and PDF previews (Kitty / iTerm2)  
+- Devicons for file icons  
+- Seamless **zoxide** integration for fast directory jumping  
+
+---
+
+### Installation
+
+```bash
+brew install ranger trash bat glow exiftool ffmpegthumbnailer poppler
+```
+
+Optional (for previews):
+```bash
+brew install kitty   # or use iTerm2 with preview_images_method iterm2
+```
+
+Deploy with stow:
+```bash
+cd ~/.dotfiles
+stow -v ranger
+```
+
+This will create:
+```
+~/.config/ranger/rc.conf
+~/.config/ranger/rifle.conf
+~/.config/ranger/scope.sh
+```
+
+---
+
+### Key Mappings
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Open file using `rifle.conf` rules |
+| `q` | Quick Look preview |
+| `h` / `l` | Navigate left / right |
+| `dd` | Move to Trash |
+| `gz` | Jump to directory using zoxide |
+
+---
+
+### Notable Config Highlights
+
+**rc.conf**
+```ini
+set draw_borders true
+set show_hidden true
+set confirm_on_delete never
+set use_preview_script true
+set preview_images true
+set preview_images_method iterm2  # or kitty
+map q shell -w qlmanage -p -- "%s" >/dev/null 2>&1
+map gz console z
+```
+
+**rifle.conf** (simplified)
+```conf
+mime ^image,           X, flag f = open -a "Preview" -- "$@"
+ext pdf,               X, flag f = open -a "Preview" -- "$@"
+ext doc|docx|xls|ppt|csv, X, flag f = open -- "$@"
+mime ^text,            flag f = ${VISUAL:-${EDITOR:-nvim}} -- "$@"
+label quicklook,       flag f = qlmanage -p "$@" >/dev/null 2>&1
+```
+
+---
+
+### Zoxide Integration
+
+You can use **zoxide** directly inside Ranger to jump to frequently visited directories.
+
+1. Install zoxide:
+   ```bash
+   brew install zoxide
+   echo 'eval "$(zoxide init zsh)"' >> ~/.zshrc
+   ```
+2. Add this to `~/.config/ranger/commands.py`:
+   ```python
+   from ranger.api.commands import Command
+   import subprocess
+
+   class z(Command):
+       """:z [query] — jump using zoxide"""
+       def execute(self):
+           query = self.arg(1) if self.arg(1) else None
+           try:
+               target = subprocess.check_output(
+                   ['zoxide', 'query', query or '-i'], text=True).strip()
+               self.fm.cd(target)
+           except subprocess.CalledProcessError:
+               self.fm.notify("No match found.", bad=True)
+   ```
+3. Restart Ranger and try:
+   ```
+   :z projects
+   ```
+   or just `:z` for interactive mode.
+
+---
+
+### Optional Enhancements
+
+- **Devicons**
+  ```bash
+  git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
+  echo "default_linemode devicons" >> ~/.config/ranger/rc.conf
+  ```
+- **Zsh alias**
+  ```zsh
+  alias r='ranger'
+  ```
+
+---
+
+### Troubleshooting
+
+- **“method 0 is undefined”** → invalid `rifle.conf` syntax. Use the version above.  
+- **Office files open only with `o`** → missing `ext` rule in `rifle.conf`.  
+- **No previews** → ensure `scope.sh` is executable and preview options are enabled.  
+
+---
+
 ## Local Overrides (private)
 
 You can keep private or machine-specific settings in these optional files:
@@ -228,7 +375,7 @@ General:
 git -C ~/.dotfiles pull
 
 # Re-stow
-cd ~/.dotfiles && stow -R zsh vim nvim
+cd ~/.dotfiles && stow -R zsh vim nvim ranger
 ```
 
 ---
@@ -260,3 +407,6 @@ cd ~/.dotfiles && stow -R zsh vim nvim
 - [lazy.nvim](https://github.com/folke/lazy.nvim)
 - [Telescope](https://github.com/nvim-telescope/telescope.nvim)
 - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+- [ranger](https://github.com/ranger/ranger)
+- [ranger_devicons](https://github.com/alexanderjeurissen/ranger_devicons)
+- [zoxide](https://github.com/ajeetdsouza/zoxide)

@@ -79,12 +79,29 @@ map("t", "<Esc>", [[<C-\><C-n>]], "Exit terminal mode")
 ----------------------------------------------------
 local tb = try_require("telescope.builtin")
 if tb then
-  map("n", "<leader>f",  tb.find_files,                 "Files")
+  -- normal files (git-aware, clean)
+  map("n", "<leader>f", function()
+    tb.find_files({ hidden = true, no_ignore = true })
+  end, "Find files (include hidden + ignored)")
+map("n", "<leader>F", function()
+  tb.find_files({ hidden = true, no_ignore = true })
+end, "Files (ALL, hidden + ignored)")
+  -- optional: keep your other mappings
   map("n", "<leader>b",  tb.buffers,                    "Buffers")
   map("n", "<leader>g",  tb.live_grep,                  "Live grep")
   map("n", "<leader>w",  tb.current_buffer_fuzzy_find,  "Fuzzy in buffer")
   map("n", "<leader>fh", tb.help_tags,                  "Help tags")
 end
+
+
+-- local tb = try_require("telescope.builtin")
+-- if tb then
+--   map("n", "<leader>f",  tb.find_files,                 "Files")
+--   map("n", "<leader>b",  tb.buffers,                    "Buffers")
+--   map("n", "<leader>g",  tb.live_grep,                  "Live grep")
+--   map("n", "<leader>w",  tb.current_buffer_fuzzy_find,  "Fuzzy in buffer")
+--   map("n", "<leader>fh", tb.help_tags,                  "Help tags")
+-- end
 
 ----------------------------------------------------
 -- Plugin UIs & helpers (if present)
@@ -132,3 +149,24 @@ vim.api.nvim_create_autocmd("LspAttach", {
     bmap("n", "<leader>fm", function() vim.lsp.buf.format({ async = true }) end, "Format buffer")
   end,
 })
+
+local transparent = true
+vim.keymap.set("n", "<leader>tt", function()
+  transparent = not transparent
+  if transparent then
+    vim.cmd([[
+      hi Normal guibg=none | hi NormalNC guibg=none
+      hi SignColumn guibg=none | hi LineNr guibg=none | hi EndOfBuffer guibg=none
+      hi StatusLine guibg=none | hi StatusLineNC guibg=none
+      hi TabLine guibg=none | hi TabLineFill guibg=none
+      hi TelescopeNormal guibg=none | hi TelescopeBorder guibg=none
+      hi NeoTreeNormal guibg=none | hi NeoTreeNormalNC guibg=none
+    ]])
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+  else
+    vim.cmd("highlight clear")
+    vim.cmd("doautocmd ColorScheme") -- restore scheme defaults
+  end
+end, { desc = "Toggle transparency" })
+

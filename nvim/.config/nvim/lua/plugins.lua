@@ -54,6 +54,18 @@ local plugin_spec = {
     branch = "0.1.x",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
+          local telescope = require("telescope")
+
+    telescope.setup({
+      pickers = {
+        find_files = {
+          find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
+          hidden = true,
+          no_ignore = true,
+          no_ignore_parent = true,
+        },
+      },
+    })
       local tb = require("telescope.builtin")
       vim.keymap.set("n", "<leader>f", tb.find_files, { desc = "Files" })
       vim.keymap.set("n", "<leader>b", tb.buffers, { desc = "Buffers" })
