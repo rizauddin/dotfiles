@@ -48,24 +48,45 @@ local plugin_spec = {
     opts = { win = { border = "rounded" }, plugins = { spelling = true } },
   },
 
+  -- nvim-colorizer
+  {
+    "NvChad/nvim-colorizer.lua", -- maintained fork
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      filetypes = { "css", "scss", "sass", "less", "html", "javascript", "typescript", "tsx", "jsx", "lua", "vim", "markdown" },
+      user_default_options = {
+        names = false,       -- do not colour generic names like "red"
+        tailwind = true,     -- also colour Tailwind classes like bg-cyan-500
+        mode = "background", -- "background" or "virtualtext"
+        RRGGBB = true,
+        RRGGBBAA = true,
+        rgb_fn = true,
+        hsl_fn = true,
+        AARRGGBB = true,
+        css = true,
+        css_fn = true,
+        always_update = true,
+      },
+    },
+  },
   -- Telescope finder
   {
     "nvim-telescope/telescope.nvim",
     branch = "0.1.x",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-          local telescope = require("telescope")
+      local telescope = require("telescope")
 
-    telescope.setup({
-      pickers = {
-        find_files = {
-          find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
-          hidden = true,
-          no_ignore = true,
-          no_ignore_parent = true,
+      telescope.setup({
+        pickers = {
+          find_files = {
+            find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
+            hidden = true,
+            no_ignore = true,
+            no_ignore_parent = true,
+          },
         },
-      },
-    })
+      })
       local tb = require("telescope.builtin")
       vim.keymap.set("n", "<leader>f", tb.find_files, { desc = "Files" })
       vim.keymap.set("n", "<leader>b", tb.buffers, { desc = "Buffers" })

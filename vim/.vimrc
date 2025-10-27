@@ -150,6 +150,9 @@ Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'jparise/vim-graphql'
 
+" CSS colorizer
+Plug 'ap/vim-css-color'
+
 " ONE LSP stack only: coc.nvim (drop vim-lsp/asyncomplete to avoid conflicts)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
