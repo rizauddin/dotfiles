@@ -49,8 +49,8 @@ end
 -- 1) Core settings, keymaps, plugins, and autocmds
 ----------------------------------------------------
 require("options")
-require("keymaps")
 require("config.lazy")
+require("keymaps")
 require("autocmds")
 
 ----------------------------------------------------

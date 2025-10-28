@@ -30,7 +30,14 @@
 "     for quick web development.
 "###############################################################################
 
-
+"========================= For MacVim font size =========================
+if has("gui_running")
+  set guifont=Menlo:h17
+  "set guifont=JetBrains\ Mono:h14
+  "set guifont=FiraCode-Regular:h15
+else
+  "set guifont=Menlo:h12
+endif
 
 "========================= Bootstrap: vim-plug =========================
 if empty(glob('~/.vim/autoload/plug.vim'))
