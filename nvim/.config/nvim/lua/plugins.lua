@@ -107,7 +107,23 @@ local plugin_spec = {
   },
 
   -- GitHub Copilot
-  { "github/copilot.vim", event = "InsertEnter" },
+  --  { "github/copilot.vim", event = "InsertEnter" },
+  {
+    "github/copilot.vim",
+    lazy = false,        -- load at startup (more reliable than event = "InsertEnter")
+    init = function()
+      -- Don't let Copilot capture <Tab> (nvim-cmp/LuaSnip usually want it)
+      vim.g.copilot_no_tab_map = true
+      vim.g.copilot_assume_mapped = true
+
+      -- Optional: restrict/allow filetypes
+      -- vim.g.copilot_filetypes = { markdown = true, ["*"] = true }
+
+      -- A conflict-free accept key
+      vim.keymap.set("i", "<C-j>", 'copilot#Accept("<CR>")',
+        { expr = true, replace_keycodes = false, silent = true })
+    end,
+  },
 
   -- Emmet
   {
