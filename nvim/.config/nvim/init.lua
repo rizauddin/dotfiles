@@ -52,11 +52,13 @@ require("options")
 require("config.lazy")
 require("keymaps")
 require("autocmds")
+require("config.cmp")
 
 ----------------------------------------------------
 -- 2) Colorscheme
 ----------------------------------------------------
-pcall(vim.cmd, "colorscheme gruvbox")
+--[[ pcall(vim.cmd, "colorscheme gruvbox") ]]
+pcall(vim.cmd, "colorscheme tokyonight")
 
 ----------------------------------------------------
 -- 3) Custom commands

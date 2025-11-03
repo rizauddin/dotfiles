@@ -4,7 +4,7 @@
 return {
   {
     "github/copilot.vim",
-    lazy = false,  -- load at startup (ensures reliability)
+    lazy = false, -- load at startup (ensures reliability)
     init = function()
       -- Disable <Tab> mapping to avoid conflicts with other plugins
       vim.g.copilot_no_tab_map = true
@@ -16,7 +16,7 @@ return {
       -- Use Ctrl-J for accepting suggestions (cleaner than <Tab>)
       vim.keymap.set(
         "i",
-        "<C-j>",
+        "<C-l>",
         'copilot#Accept("<CR>")',
         { expr = true, replace_keycodes = false, silent = true, desc = "Accept Copilot suggestion" }
       )

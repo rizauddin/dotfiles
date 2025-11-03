@@ -80,16 +80,16 @@ map("t", "<Esc>", [[<C-\><C-n>]], "Exit terminal mode")
 local tb = try_require("telescope.builtin")
 if tb then
   -- normal files (git-aware, clean)
-  map("n", "<leader>f", function()
+  map("n", "<leader>ff", function()
     tb.find_files({ hidden = true, no_ignore = true })
   end, "Find files (include hidden + ignored)")
-map("n", "<leader>F", function()
+map("n", "<leader>fF", function()
   tb.find_files({ hidden = true, no_ignore = true })
 end, "Files (ALL, hidden + ignored)")
   -- optional: keep your other mappings
-  map("n", "<leader>b",  tb.buffers,                    "Buffers")
-  map("n", "<leader>g",  tb.live_grep,                  "Live grep")
-  map("n", "<leader>w",  tb.current_buffer_fuzzy_find,  "Fuzzy in buffer")
+  map("n", "<leader>fb",  tb.buffers,                    "Buffers")
+  map("n", "<leader>fg",  tb.live_grep,                  "Live grep")
+  map("n", "<leader>fw",  tb.current_buffer_fuzzy_find,  "Fuzzy in buffer")
   map("n", "<leader>fh", tb.help_tags,                  "Help tags")
 end
 
